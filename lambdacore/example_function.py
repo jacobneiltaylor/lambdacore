@@ -1,5 +1,7 @@
-from .generic_function import GenericFunction
+from lambdacore.function import Function
 
-class ExampleFunction(GenericFunction):
+_STR_EXAMPLE_MESSAGE = "Hello, world!"
+
+class ExampleFunction(Function):
     def invoke(self):
-        self.env.logs('Running from ExampleFunction')
+        self.env.logs.emit_string(_STR_EXAMPLE_MESSAGE)

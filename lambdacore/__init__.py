@@ -1,6 +1,6 @@
-from .generic_function import GenericFunction
-from .example_function import ExampleFunction
-from .environment import Environment
-from .run import run
+from lambdacore.function import Function
+from lambdacore.example_function import ExampleFunction
+from lambdacore.environment import Environment
+from lambdacore.run import run
 
 name = 'lambdacore'

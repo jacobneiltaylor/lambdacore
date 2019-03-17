@@ -9,8 +9,8 @@ import logging
 import inspect
 import functools
 
-from .generic_function import GenericFunction
-from .logger import Logger
+from lambdacore.abstract_function import AbstractFunction
+from lambdacore.logger import Logger
 
 _STR_DATA_DIR = 'data'
 _STR_LOG_MSG_FILE = 'logs.json'
@@ -29,6 +29,8 @@ _TPL_SANDBOX_STATES = (
     'done'
 )
 
+_STR_DEFAULT_LOG_LEVEL = 'INFO'
+
 def sandboxed(func):
     log_name = lambda state: _STR_SANDBOX_LOGS.format(state, func.__name__)
     logs = {state: log_name(state) for state in _TPL_SANDBOX_STATES}
@@ -41,7 +43,7 @@ def sandboxed(func):
         env.logs.emit(logs['init'], env.class_info)
 
         try:
-            func(*args)
+            retval = func(*args)
 
         except Exception as e:
             log_args = env.get_log_args(e)
@@ -73,16 +75,10 @@ class Environment():
         self._ready = False
 
 
-    def _get_module_logs(self):
-        filename = self._get_data_filename(_STR_LOG_MSG_FILE)
-        with open(filename) as infile:
-            return json.load(infile)
-
-
     @sandboxed
     def load(self):
         module = pydoc.locate(self.class_info["module_name"])
-        self.function: GenericFunction = getattr(module, self.class_info["class_name"])(self)
+        self.function: AbstractFunction = getattr(module, self.class_info["class_name"])(self)
         return self.function.initialise()
 
 
@@ -102,8 +98,13 @@ class Environment():
 
 
     @staticmethod
+    def _get_log_level():
+        return Environment.get_var(_STR_LOG_LEVEL_ENVVAR, _STR_DEFAULT_LOG_LEVEL)
+
+
+    @staticmethod
     def _get_data_filename(filename):
-        Environment.get_filename(_STR_DATA_DIR, filename)
+        return Environment.get_filename(_STR_DATA_DIR, filename)
 
 
     @staticmethod
@@ -112,16 +113,23 @@ class Environment():
             Gets a filename relative to the directory of the caller
         """
         frame = inspect.stack()[1]
-        path = [os.path.dirname(frame[0].f_code.co_filename),] + args
+        path = [os.path.dirname(frame[0].f_code.co_filename),] + list(args)
         return os.path.join(*path)
 
 
     @staticmethod
-    def _get_log_level():
-        return getattr(
-            logging,
-            Environment.get_var(_STR_LOG_LEVEL_ENVVAR),
-            logging.INFO)
+    def get_log_args(e: Exception):
+        return {
+            'exception_type': type(e).__name__,
+            'exception_msg': str(e)
+        }
+
+    
+    @staticmethod
+    def _get_module_logs():
+        filename = Environment._get_data_filename(_STR_LOG_MSG_FILE)
+        with open(filename) as infile:
+            return json.load(infile)
 
 
     @staticmethod
@@ -131,11 +139,3 @@ class Environment():
             Returns a specified fallback value (default None) if it doesn't.
         """
         return os.getenv(var_name, default)
-
-
-    @staticmethod
-    def get_log_args(e: Exception):
-        return {
-            'exception_type': type(e).__name__,
-            'exception_msg': str(e)
-        }
