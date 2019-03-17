@@ -1,0 +1,11 @@
+{
+    "name": "lambdacore",
+    "version": "0.1",
+    "description": "Object-oriented framework for building Lambda functions in AWS",
+    "url": "https://github.com/jacobneiltaylor/lambdacore",
+    "author": "Jacob Neil Taylor",
+    "author_email": "me@jacobtaylor.id.au",
+    "license": "LGPLv3",
+    "packages": ["lambdacore"],
+    "zip_safe": false
+}

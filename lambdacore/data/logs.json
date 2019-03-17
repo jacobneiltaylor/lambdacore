@@ -1,0 +1,68 @@
+{
+    "_enter": {
+        "sev": "INFO",
+        "msg": "Entering LambdaCore in {func_name}",
+        "vars": [
+            "func_name"
+        ]
+    },
+    "_sbox_init_load": {
+        "sev": "INFO",
+        "msg": "Attempting to load function class {module_name}.{class_name}",
+        "vars": [
+            "module_name",
+            "class_name"
+        ]
+    },
+    "_sbox_fail_load": {
+        "sev": "CRIT",
+        "msg": "Unable to load function class {module_name}.{class_name} due to error {exception_type}: {exception_msg}",
+        "vars": [
+            "module_name",
+            "class_name",
+            "exception_type",
+            "exception_msg"
+        ]
+    },
+    "_sbox_done_load": {
+        "sev": "INFO",
+        "msg": "Function class {module_name}.{class_name} loaded successfully!",
+        "vars": [
+            "module_name",
+            "class_name"
+        ]
+    },
+    "_sbox_init_exec": {
+        "sev": "INFO",
+        "msg": "Beginning execution for {module_name}.{class_name}",
+        "vars": [
+            "module_name",
+            "class_name"
+        ]
+    },
+    "_sbox_fail_exec": {
+        "sev": "CRIT",
+        "msg": "Error encountered during execution of {module_name}.{class_name} - {exception_type}: {exception_msg}",
+        "vars": [
+            "module_name",
+            "class_name",
+            "exception_type",
+            "exception_msg"
+        ]
+    },
+    "_sbox_done_exec": {
+        "sev": "INFO",
+        "msg": "Completed execution for {module_name}.{class_name} without error",
+        "vars": [
+            "module_name",
+            "class_name"
+        ]
+    },
+    "_exit": {
+        "sev": "INFO",
+        "msg": "Exiting LambdaCore in {func_name}",
+        "vars": [
+            "func_name"
+        ]
+    }
+}
