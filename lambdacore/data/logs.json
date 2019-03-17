@@ -58,6 +58,10 @@
             "class_name"
         ]
     },
+    "_skip": {
+        "sev": "WARN",
+        "msg": "Skipped execution of function due to return value"
+    },
     "_exit": {
         "sev": "INFO",
         "msg": "Exiting LambdaCore in {func_name}",

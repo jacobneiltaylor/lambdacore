@@ -5,6 +5,7 @@ from .environment import Environment
 
 STR_ENTER_LOG = '_enter'
 STR_EXIT_LOG = '_exit'
+STR_SKIP_LOG = '_skip'
 
 def run(event, context):
     """
@@ -25,6 +26,8 @@ def run(event, context):
 
     if env.load():
         retval = env.exec()
+    else:
+        env.logs.emit(STR_SKIP_LOG)
 
     env.logs.emit(STR_EXIT_LOG, log_vars)
 

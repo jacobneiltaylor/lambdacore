@@ -3,7 +3,6 @@
 """
 
 import logging
-import json
 
 _DCT_SEVERITY = {
     'DEBUG': lambda log, msg: log.debug(msg),
@@ -15,11 +14,6 @@ _DCT_SEVERITY = {
 
 _STR_UNDEF_LOG = 'Undefined log "{}"'
 _STR_MISSING_VAR = 'Variable "{}" not defined in request to emit named log "{}"'
-
-_STR_DATA_DIR = 'data'
-_STR_LOG_MSG_FILE = 'logs.json'
-
-_STR_LOG_LEVEL_ENVVAR = 'LMDCORE_LOG_LEVEL'
 
 class Logger():
     """
